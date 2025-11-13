@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+import Greeting from './components/Greeting';
+import Footer from './components/Footer';
+import PizzaMenu from './components/PizzaMenu';
 
-function App() {
-  const [count, setCount] = useState(0)
+// js function which returns JSX
+const App = () => {
+  const siteName = 'WSK';
+  const styles = {
+    backgroundColor: 'gray',
+    color: 'white',
+  };
 
   return (
     <>
+      <h1 style={styles}>{siteName} site</h1>
+      <div style={{color: 'blue'}}>Hello World!</div>
+      <Greeting name="Sandra" age={25} isTeacher={false} />
+      <Greeting name="Sue" age={34} isTeacher={true} />
+      <PizzaMenu />
+      <ul>
+        <li>apple</li>
+        <li>orange</li>
+      </ul>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
+          ipsam laboriosam rerum tempora quod id architecto illum at eaque sint,
+          error impedit labore explicabo quas, pariatur, modi obcaecati corporis
+          porro.
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Footer />
+      <button>button</button>
     </>
-  )
-}
-
-export default App
+  );
+};
+export default App;

@@ -66,3 +66,21 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.card {
+  background-color: rgb(244, 230, 186);
+  border: #1a1a1a;
+  border-radius: 20px;
+  border-width: 2px;
+}
+
+.pizza-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.card img {
+  height: 100px;
+  width: 100px;
+}

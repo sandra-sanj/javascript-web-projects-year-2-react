@@ -1,0 +1,16 @@
+import pizzaImg from '../assets/images/pizza.jpg';
+
+const PizzaCard = (props) => {
+  console.log('props', props);
+  const {name, price} = props.pizza;
+
+  return (
+    <div className="card">
+      <h4>{name}</h4>
+      <p>Price: {price} €</p>
+      <img src={pizzaImg} alt="pizza" />
+    </div>
+  );
+};
+
+export default PizzaCard;
