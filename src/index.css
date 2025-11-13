@@ -84,3 +84,15 @@ button:focus-visible {
   height: 100px;
   width: 100px;
 }
+
+.single-view-dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.single-view-dialog img,
+video {
+  background-color: #213547;
+}
