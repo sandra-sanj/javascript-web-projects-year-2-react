@@ -1,4 +1,6 @@
+import {useState} from 'react';
 import MediaRow from './MediaRow';
+import SingleView from './SingleView';
 
 const Home = () => {
   const mediaArray = [
@@ -38,6 +40,12 @@ const Home = () => {
     },
   ];
 
+  const [selectedItem, setSelectedItem] = useState(null);
+  const updateSelectedItem = (newItem) => {
+    setSelectedItem(newItem);
+    console.log(selectedItem);
+  };
+
   return (
     <>
       <h2>My Media</h2>
@@ -50,14 +58,28 @@ const Home = () => {
             <th>Created</th>
             <th>Size</th>
             <th>Type</th>
+            <th>Open</th>
           </tr>
         </thead>
         <tbody>
           {mediaArray.map((item) => (
-            <MediaRow key={item.media_id} item={item} />
+            <MediaRow
+              key={item.media_id}
+              item={item}
+              updateSelectedItem={updateSelectedItem}
+            />
           ))}
         </tbody>
       </table>
+      {selectedItem !== null ? (
+        <SingleView
+          key={selectedItem?.media_id}
+          item={selectedItem}
+          updateSelectedItem={updateSelectedItem}
+        />
+      ) : (
+        console.log('Could not open dialog as selectedItem is null')
+      )}
     </>
   );
 };
