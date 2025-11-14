@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
+import HookDemo from '../components/HookDemo';
 
 const Profile = () => {
-  return <div>Profile</div>;
+  return (
+    <>
+      <h2>Profile</h2>
+      <div>Hook Demo</div>
+      <HookDemo />
+    </>
+  );
 };
 
 Profile.propTypes = {};
