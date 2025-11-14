@@ -1,6 +1,8 @@
-const MediaRow = (props) => {
-  console.log(props);
-  const {item, updateSelectedItem} = props;
+import {Link} from 'react-router';
+
+const MediaRow = ({item}) => {
+  //console.log(props);
+  //const {item, updateSelectedItem} = props;
 
   return (
     <tr key={item.media_id}>
@@ -13,9 +15,14 @@ const MediaRow = (props) => {
       <td>{item.filesize}</td>
       <td>{item.media_type}</td>
       <td>
-        <button onClick={() => updateSelectedItem(item)}>
+        {/* <button onClick={() => updateSelectedItem(item)}>
           Display Content
-        </button>
+        </button> */}
+        {
+          <Link to="/single" state={item}>
+            Show
+          </Link>
+        }
       </td>
     </tr>
   );
