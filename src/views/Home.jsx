@@ -1,13 +1,11 @@
 import {useEffect, useState} from 'react';
 import MediaRow from '../components/MediaRow';
-import SingleView from '../components/SingleView';
 
 const fetchData = async (url, options = {}) => {
-  // console.log('fetching data from url: ', url);
   const response = await fetch(url, options);
   const json = await response.json();
+
   if (!response.ok) {
-    // console.log('json', json);
     if (json.message) {
       throw new Error(json.message);
     }
@@ -19,10 +17,29 @@ const fetchData = async (url, options = {}) => {
 const Home = () => {
   const [mediaArray, setMediaArray] = useState([]);
 
+  const getMediaWithUsername = (mediaItems) => {
+    return Promise.all(
+      mediaItems.map(async (item) => {
+        const result = await fetchData(
+          import.meta.env.VITE_AUTH_API + '/users/' + item.user_id,
+        );
+        // add username to media items array
+        return {...item, username: result.username};
+      }),
+    );
+  };
+
   const getMedia = async () => {
     try {
-      const json = await fetchData(`/test.json`);
-      setMediaArray(json);
+      const mediaJson = await fetchData(
+        import.meta.env.VITE_MEDIA_API + '/media',
+      );
+
+      // combine username to media json
+      const mediaJsonWithUsername = await getMediaWithUsername(mediaJson);
+      console.log(mediaJsonWithUsername);
+
+      setMediaArray(mediaJsonWithUsername);
     } catch (error) {
       console.log('error', error.message);
     }
@@ -48,6 +65,7 @@ const Home = () => {
             <th>Thumbnail</th>
             <th>Title</th>
             <th>Description</th>
+            <th>Username</th>
             <th>Created</th>
             <th>Size</th>
             <th>Type</th>
@@ -65,15 +83,6 @@ const Home = () => {
             ))}
         </tbody>
       </table>
-      {selectedItem !== null ? (
-        <SingleView
-          key={selectedItem?.media_id}
-          item={selectedItem}
-          updateSelectedItem={updateSelectedItem}
-        />
-      ) : (
-        console.log('Could not open dialog as selectedItem is null')
-      )}
     </>
   );
 };
