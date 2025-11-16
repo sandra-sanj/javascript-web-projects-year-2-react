@@ -17,4 +17,4 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Static Website
 
-Open [link](https://users.metropolia.fi/~sandraj/wsk-routing/) to view website in the browser.
+Open [https://users.metropolia.fi/~sandraj/hooks/](https://users.metropolia.fi/~sandraj/hooks/) to view website in the browser.
