@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import {useLocation, useNavigate} from 'react-router';
 
 const Single = () => {
@@ -24,6 +23,7 @@ const Single = () => {
         <div>
           <h3>{item.title}</h3>
           <p>{item.description}</p>
+          <p>User: {item.username}</p>
         </div>
         <button onClick={() => navigate(-1)}>Go back</button>
       </div>
@@ -31,7 +31,5 @@ const Single = () => {
   }
   return <div></div>;
 };
-
-Single.propTypes = {};
 
 export default Single;
