@@ -23,7 +23,6 @@ const useMedia = () => {
 
       // combine username to media json
       const mediaJsonWithUsername = await getMediaWithUsername(mediaJson);
-      console.log('mediaJsonWithUsername', mediaJsonWithUsername);
 
       setMediaArray(mediaJsonWithUsername);
     } catch (error) {
