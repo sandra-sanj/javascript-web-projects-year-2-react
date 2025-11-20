@@ -6,13 +6,18 @@ function HookDemo() {
 
   useEffect(() => {
     // Update div element's color based on count
-    testElement.current?.style.setProperty('color', `rgb(${count * 5}, 0, 0)`);
+    testElement.current?.style.setProperty(
+      'background-color',
+      `rgb(${count * 5}, 0, 0)`,
+    );
   }, [count]); // Only re-run the effect if count changes
 
   return (
-    <div ref={testElement}>
+    <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
+      <button ref={testElement} onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
     </div>
   );
 }
