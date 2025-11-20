@@ -1,64 +1,18 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import MediaRow from '../components/MediaRow';
+import {useMedia} from '../hooks/apiHooks';
+import SingleView from '../components/SingleView';
 
-const fetchData = async (url, options = {}) => {
-  const response = await fetch(url, options);
-  const json = await response.json();
-
-  if (!response.ok) {
-    if (json.message) {
-      throw new Error(json.message);
-    }
-    throw new Error(`Error ${response.status} occured`);
-  }
-  return json;
-};
+const MEDIA_API = import.meta.env.VITE_MEDIA_API + '/media';
 
 const Home = () => {
-  const [mediaArray, setMediaArray] = useState([]);
-
-  const getMediaWithUsername = (mediaItems) => {
-    return Promise.all(
-      mediaItems.map(async (item) => {
-        const result = await fetchData(
-          import.meta.env.VITE_AUTH_API + '/users/' + item.user_id,
-        );
-        // add username to media items array
-        return {...item, username: result.username};
-      }),
-    );
-  };
-
-  const getMedia = async () => {
-    try {
-      const mediaJson = await fetchData(
-        import.meta.env.VITE_MEDIA_API + '/media',
-      );
-
-      // combine username to media json
-      const mediaJsonWithUsername = await getMediaWithUsername(mediaJson);
-      console.log(mediaJsonWithUsername);
-
-      setMediaArray(mediaJsonWithUsername);
-    } catch (error) {
-      console.log('error', error.message);
-    }
-  };
-
-  useEffect(() => {
-    getMedia();
-  }, []);
-  console.log(mediaArray);
-
   const [selectedItem, setSelectedItem] = useState(null);
-  const updateSelectedItem = (newItem) => {
-    setSelectedItem(newItem);
-    console.log(selectedItem);
-  };
+
+  const {mediaArray} = useMedia();
 
   return (
     <>
-      <h2>My Media</h2>
+      <SingleView item={selectedItem} setSelectedItem={setSelectedItem} />
       <table>
         <thead>
           <tr>
@@ -73,17 +27,17 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {mediaArray &&
-            mediaArray.map((item) => (
-              <MediaRow
-                key={item.media_id}
-                item={item}
-                updateSelectedItem={updateSelectedItem}
-              />
-            ))}
+          {mediaArray.map((mediaItem) => (
+            <MediaRow
+              key={mediaItem.media_id}
+              item={mediaItem}
+              setSelectedItem={setSelectedItem}
+            />
+          ))}
         </tbody>
       </table>
     </>
   );
 };
+
 export default Home;
