@@ -1,11 +1,19 @@
+import {useState} from 'react';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
 export const Login = () => {
+  const [isLogin, setIsLogin] = useState(true);
   return (
     <>
-      <LoginForm />
-      <RegisterForm />
+      {isLogin ? <LoginForm /> : <RegisterForm />}
+      <button
+        onClick={() => {
+          setIsLogin(!isLogin);
+        }}
+      >
+        {isLogin ? 'Register' : 'Login'}
+      </button>
     </>
   );
 };
