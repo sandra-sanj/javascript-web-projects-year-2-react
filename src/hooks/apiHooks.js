@@ -38,24 +38,30 @@ const useMedia = () => {
   return {mediaArray};
 };
 
-const postLogin = async (inputs) => {
-  try {
-    const fetchOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(inputs),
-    };
+const useAuthentication = () => {
+  const postLogin = async (inputs) => {
+    try {
+      const fetchOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(inputs),
+      };
 
-    const loginResult = await fetchData(`${AUTH_API}/auth/login`, fetchOptions);
-    console.log('login result', loginResult);
+      const loginResult = await fetchData(
+        `${AUTH_API}/auth/login`,
+        fetchOptions,
+      );
+      console.log('login result', loginResult);
+      return loginResult;
+    } catch (error) {
+      console.log('error', error.message);
+      return null;
+    }
+  };
 
-    return loginResult;
-  } catch (error) {
-    console.log('error', error.message);
-  }
-  return;
+  return {postLogin};
 };
 
 const useUser = () => {
@@ -80,4 +86,4 @@ const postUser = (user) => {
   // /api/v1/users
 };
 
-export {useMedia, postLogin, useUser, postUser};
+export {useMedia, useAuthentication, useUser, postUser};
