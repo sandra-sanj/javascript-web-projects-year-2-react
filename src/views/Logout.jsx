@@ -1,7 +1,12 @@
-import React from 'react';
+import {useUserContext} from '../hooks/contextHooks';
 
 export const Logout = () => {
-  return <div>Logout</div>;
+  const {handleLogout} = useUserContext();
+  return (
+    <>
+      <button onClick={handleLogout}>Logout</button>
+    </>
+  );
 };
 
 export default Logout;
