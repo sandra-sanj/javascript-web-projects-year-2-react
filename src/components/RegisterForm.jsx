@@ -1,11 +1,8 @@
 import useForm from '../hooks/formHooks';
-import {postUser} from '../hooks/apiHooks';
-import {useNavigate} from 'react-router';
+import {useUserContext} from '../hooks/contextHooks';
 
 const RegisterForm = () => {
-  return <div>RegisterForm</div>;
-
-  /*const navigate = useNavigate();
+  const {handleRegister} = useUserContext();
 
   const initValues = {
     username: '',
@@ -14,23 +11,11 @@ const RegisterForm = () => {
   };
 
   const doRegister = async () => {
-    console.log(inputs);
-
     try {
-      // TODO: add login functionalities here
-      const registerResult = await postUser(inputs);
-      console.log('registerResult', registerResult);
-
-      // save login token to local storage
-      localStorage.setItem('token', registerResult.token);
-      //console.log(localStorage.getItem('token'));
-
-      // redirect to home if login successful
-      if (registerResult?.token) {
-        navigate('/');
-      }
-    } catch (error) {
-      console.log('register error', error);
+      const registerResult = await handleRegister(inputs);
+      console.log(registerResult);
+    } catch (e) {
+      alert(e.message);
     }
   };
 
@@ -41,7 +26,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      <h1>Register</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit} style={{width: '400px', margin: 'auto'}}>
         <div>
           <label htmlFor="registeruser">Username</label>
@@ -60,7 +45,7 @@ const RegisterForm = () => {
             type="password"
             id="registerpassword"
             onChange={handleInputChange}
-            autoComplete="current-password"
+            autoComplete="password"
           />
         </div>
         <div>
@@ -76,7 +61,7 @@ const RegisterForm = () => {
         <button type="submit">Register</button>
       </form>
     </>
-  );*/
+  );
 };
 
 export default RegisterForm;
