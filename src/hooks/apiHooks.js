@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import fetchData from '../utils/fetchData';
 
 const MEDIA_API = import.meta.env.VITE_MEDIA_API + '/media/';
-const AUTH_API = import.meta.env.VITE_AUTH_API + '/users/';
+const AUTH_API = import.meta.env.VITE_AUTH_API;
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -10,7 +10,7 @@ const useMedia = () => {
   const getMediaWithUsername = (mediaItems) => {
     return Promise.all(
       mediaItems.map(async (item) => {
-        const result = await fetchData(AUTH_API + item.user_id);
+        const result = await fetchData(AUTH_API + '/users/' + item.user_id);
         // add username to media items array
         return {...item, username: result.username};
       }),
@@ -48,15 +48,8 @@ const postLogin = async (inputs) => {
       body: JSON.stringify(inputs),
     };
 
-    const loginResult = await fetchData(
-      import.meta.env.VITE_AUTH_API + '/auth/login',
-      fetchOptions,
-    );
+    const loginResult = await fetchData(`${AUTH_API}/auth/login`, fetchOptions);
     console.log('login result', loginResult);
-
-    // save login token to local storage
-    localStorage.setItem('token', loginResult.token);
-    //console.log(localStorage.getItem('token'));
 
     return loginResult;
   } catch (error) {
@@ -65,4 +58,26 @@ const postLogin = async (inputs) => {
   return;
 };
 
-export {useMedia, postLogin};
+const useUser = () => {
+  const getUserByToken = async (token) => {
+    const fetchOptions = {
+      method: 'GET',
+
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const tokenResult = fetchData(`${AUTH_API}/users/token`, fetchOptions);
+    return tokenResult;
+  };
+
+  return {getUserByToken: getUserByToken};
+};
+
+const postUser = (user) => {
+  // /api/v1/users
+};
+
+export {useMedia, postLogin, useUser, postUser};
