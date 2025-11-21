@@ -12,12 +12,22 @@ const LoginForm = () => {
 
   const doLogin = async () => {
     console.log(inputs);
-    // TODO: add login functionalities here
-    const loginResult = await postLogin(inputs);
 
-    // redirect to home if login successful
-    if (loginResult?.token) {
-      navigate('/');
+    try {
+      // TODO: add login functionalities here
+      const loginResult = await postLogin(inputs);
+      console.log('loginResult', loginResult);
+
+      // save login token to local storage
+      localStorage.setItem('token', loginResult.token);
+      //console.log(localStorage.getItem('token'));
+
+      // redirect to home if login successful
+      if (loginResult?.token) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.log('login error', error);
     }
   };
 
@@ -25,7 +35,7 @@ const LoginForm = () => {
     doLogin,
     initValues,
   );
-  console.log(inputs);
+  //console.log(inputs);
 
   return (
     <>
