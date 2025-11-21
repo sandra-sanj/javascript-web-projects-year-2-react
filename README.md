@@ -1,3 +1,3 @@
 # Static Website
 
-Open [https://users.metropolia.fi/~sandraj/custom-hooks/](https://users.metropolia.fi/~sandraj/custom-hooks/) to view website in the browser.
+Open [https://users.metropolia.fi/~sandraj/upload/](https://users.metropolia.fi/~sandraj/upload/) to view website in the browser.
