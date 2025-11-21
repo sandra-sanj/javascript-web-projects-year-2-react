@@ -3,6 +3,7 @@ import fetchData from '../utils/fetchData';
 
 const MEDIA_API = import.meta.env.VITE_MEDIA_API + '/media/';
 const AUTH_API = import.meta.env.VITE_AUTH_API;
+const UPLOAD_API = import.meta.env.VITE_UPLOAD_SERVER;
 
 const useMedia = () => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -35,7 +36,22 @@ const useMedia = () => {
   }, []);
   console.log('mediaArray', mediaArray);
 
-  return {mediaArray};
+  const postMedia = async (fileData, inputs, token) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({...inputs, ...fileData}),
+    };
+
+    const mediaResponse = await fetchData(MEDIA_API, fetchOptions);
+    console.log('postResponse', mediaResponse);
+    return mediaResponse;
+  };
+
+  return {mediaArray, postMedia};
 };
 
 const useAuthentication = () => {
@@ -68,7 +84,6 @@ const useUser = () => {
   const getUserByToken = async (token) => {
     const fetchOptions = {
       method: 'GET',
-
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -79,11 +94,42 @@ const useUser = () => {
     return tokenResult;
   };
 
-  return {getUserByToken: getUserByToken};
+  const postUser = (user) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    };
+
+    const registerResult = fetchData(`${AUTH_API}/users`, fetchOptions);
+    return registerResult;
+  };
+
+  return {getUserByToken: getUserByToken, postUser: postUser};
 };
 
-const postUser = (user) => {
-  // /api/v1/users
+const useFile = () => {
+  const postFile = async (file, token) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    };
+
+    const uploadResponse = await fetchData(
+      `${UPLOAD_API}/upload`,
+      fetchOptions,
+    );
+    return uploadResponse;
+  };
+  return {postFile};
 };
 
-export {useMedia, useAuthentication, useUser, postUser};
+export {useMedia, useAuthentication, useUser, useFile};
