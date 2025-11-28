@@ -8,7 +8,7 @@ const MEDIA_API = import.meta.env.VITE_MEDIA_API + '/media';
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const {mediaArray} = useMedia();
+  const {mediaArray, modifyMedia, deleteMedia} = useMedia();
   return (
     <>
       <SingleView item={selectedItem} setSelectedItem={setSelectedItem} />
@@ -32,6 +32,8 @@ const Home = () => {
               key={mediaItem.media_id}
               item={mediaItem}
               setSelectedItem={setSelectedItem}
+              modifyMedia={modifyMedia}
+              deleteMedia={deleteMedia}
             />
           ))}
         </tbody>
