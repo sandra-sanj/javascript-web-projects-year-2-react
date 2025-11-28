@@ -51,7 +51,37 @@ const useMedia = () => {
     return mediaResponse;
   };
 
-  return {mediaArray, postMedia};
+  const modifyMedia = async (itemId, itemData, token) => {
+    const fetchOptions = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({...itemData}),
+    };
+    console.log(fetchOptions);
+
+    const modifyResponse = await fetchData(MEDIA_API + itemId, fetchOptions);
+    console.log('putResponse', modifyResponse);
+    return modifyResponse;
+  };
+
+  const deleteMedia = async (itemId, token) => {
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const deleteResponse = await fetchData(MEDIA_API + itemId, fetchOptions);
+    console.log('deleteResponse', deleteResponse);
+    return deleteResponse;
+  };
+
+  return {mediaArray, postMedia, modifyMedia, deleteMedia};
 };
 
 const useAuthentication = () => {
