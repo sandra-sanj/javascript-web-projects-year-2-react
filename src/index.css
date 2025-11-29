@@ -1,11 +1,7 @@
 @import 'tailwindcss';
 
-/* body {
-  background-color: beige;
-} */
-
-@theme {
-  --color-brand: rgb(90, 232, 92);
+body {
+  background-color: rgb(222, 231, 222);
 }
 
 @layer components {
