@@ -4,7 +4,9 @@ export const Logout = () => {
   const {handleLogout} = useUserContext();
   return (
     <>
-      <button onClick={handleLogout}>Logout</button>
+      <div className="h-screen">
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </>
   );
 };
