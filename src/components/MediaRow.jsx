@@ -20,7 +20,7 @@ const MediaRow = (props) => {
   // test if user is logged in and can modify item
   const isLoggedIn = Boolean(user);
   const isOwner = isLoggedIn && user.user_id === item.user_id ? true : false;
-  const isAdmin = user.level_name === 'Admin';
+  const isAdmin = user?.level_name === 'Admin';
   //console.log(isLoggedIn, isOwner, isAdmin);
   const canEdit = isOwner || isAdmin;
 
@@ -42,8 +42,8 @@ const MediaRow = (props) => {
     <tr key={item.media_id}>
       <td>
         <img
-          src={item.thumbnail}
-          alt={item.title}
+          src={item?.thumbnail || 'https://placehold.co/600x400'}
+          alt={item?.title || 'Unknown title'}
           onClick={() => {
             navigate('/single', {state: item});
           }}
