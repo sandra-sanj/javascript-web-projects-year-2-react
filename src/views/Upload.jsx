@@ -44,7 +44,7 @@ const Upload = () => {
   return (
     <>
       <h1>Upload</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="justify-self-center p-15 gap-5">
         <div>
           <label htmlFor="title">Title</label>
           <input
