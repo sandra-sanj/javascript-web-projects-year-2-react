@@ -16,7 +16,7 @@ const Profile = () => {
       <hr />
       {user ? (
         <>
-          <div className="p-7">
+          <div className="p-7 ps-20 h-screen">
             <div className="card justify-self-center border border-default rounded-base shadow-xs hover:bg-neutral-secondary-medium">
               <h5 className="mb-3 text-2xl font-semibold tracking-tight text-heading leading-8">
                 Username: {user.username}
