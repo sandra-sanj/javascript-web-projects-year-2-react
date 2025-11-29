@@ -12,13 +12,10 @@ const Layout = () => {
 
   return (
     <div>
-      <nav>
-        <ul className="flex flex-row *:p-3.5 text-xl bg-brand  *:hover:bg-green-800 *:hover:text-amber-100">
+      <nav className="bg-green-200">
+        <ul className="flex w-full justify-evenly items-center *:p-3.5 text-xl">
           <li>
             <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/pizza">Pizza</Link>
           </li>
 
           {user && (
