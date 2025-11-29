@@ -43,8 +43,8 @@ const EditDialog = ({item, modifyMedia, onClose}) => {
 
   return (
     <>
-      <dialog open>
-        <h3>Edit media forms</h3>
+      <dialog open className="flex flex-col gap-5">
+        <h3>Edit Media</h3>
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title</label>
           <input
