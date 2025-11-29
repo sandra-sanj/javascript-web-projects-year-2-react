@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import fetchData from '../utils/fetchData';
 
-const MEDIA_API = import.meta.env.VITE_MEDIA_API + '/media/';
+const MEDIA_API = import.meta.env.VITE_MEDIA_API;
 const AUTH_API = import.meta.env.VITE_AUTH_API;
 const UPLOAD_API = import.meta.env.VITE_UPLOAD_SERVER;
 
@@ -20,7 +20,7 @@ const useMedia = () => {
 
   const getMedia = async () => {
     try {
-      const mediaJson = await fetchData(MEDIA_API);
+      const mediaJson = await fetchData(MEDIA_API + '/media/');
 
       // combine username to media json
       const mediaJsonWithUsername = await getMediaWithUsername(mediaJson);
@@ -46,7 +46,7 @@ const useMedia = () => {
       body: JSON.stringify({...inputs, ...fileData}),
     };
 
-    const mediaResponse = await fetchData(MEDIA_API, fetchOptions);
+    const mediaResponse = await fetchData(MEDIA_API + '/media/', fetchOptions);
     console.log('postResponse', mediaResponse);
     return mediaResponse;
   };
@@ -62,7 +62,10 @@ const useMedia = () => {
     };
     console.log(fetchOptions);
 
-    const modifyResponse = await fetchData(MEDIA_API + itemId, fetchOptions);
+    const modifyResponse = await fetchData(
+      MEDIA_API + '/media/' + itemId,
+      fetchOptions,
+    );
     console.log('putResponse', modifyResponse);
     return modifyResponse;
   };
@@ -76,7 +79,10 @@ const useMedia = () => {
       },
     };
 
-    const deleteResponse = await fetchData(MEDIA_API + itemId, fetchOptions);
+    const deleteResponse = await fetchData(
+      MEDIA_API + '/media/' + itemId,
+      fetchOptions,
+    );
     console.log('deleteResponse', deleteResponse);
     return deleteResponse;
   };
@@ -120,11 +126,14 @@ const useUser = () => {
       },
     };
 
-    const tokenResult = fetchData(`${AUTH_API}/users/token`, fetchOptions);
+    const tokenResult = await fetchData(
+      `${AUTH_API}/users/token`,
+      fetchOptions,
+    );
     return tokenResult;
   };
 
-  const postUser = (user) => {
+  const postUser = async (user) => {
     const fetchOptions = {
       method: 'POST',
       headers: {
@@ -133,7 +142,7 @@ const useUser = () => {
       body: JSON.stringify(user),
     };
 
-    const registerResult = fetchData(`${AUTH_API}/users`, fetchOptions);
+    const registerResult = await fetchData(`${AUTH_API}/users`, fetchOptions);
     return registerResult;
   };
 
@@ -162,4 +171,52 @@ const useFile = () => {
   return {postFile};
 };
 
-export {useMedia, useAuthentication, useUser, useFile};
+const useLike = () => {
+  const postLike = async (mediaId, token) => {
+    const fetchOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({media_id: mediaId}),
+    };
+    const likeResponse = await fetchData(MEDIA_API + '/likes', fetchOptions);
+    return likeResponse;
+  };
+
+  const deleteLike = async (likeId, token) => {
+    const fetchOptions = {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const likeResponse = await fetchData(
+      `${MEDIA_API}/likes/${likeId}`,
+      fetchOptions,
+    );
+    return likeResponse;
+  };
+
+  const getLikeCountByMediaId = async (mediaId) => {
+    return await fetchData(`${MEDIA_API}/likes/count/${mediaId}`);
+  };
+
+  const getLikeByUser = async (mediaId, token) => {
+    const fetchOptions = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    return await fetchData(
+      `${MEDIA_API}/likes/bymedia/user/${mediaId}`,
+      fetchOptions,
+    );
+  };
+
+  return {postLike, deleteLike, getLikeCountByMediaId, getLikeByUser};
+};
+
+export {useMedia, useAuthentication, useUser, useFile, useLike};
